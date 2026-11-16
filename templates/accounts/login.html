@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Log in &middot; StudyMatch{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Log in</h1>
+  <p class="muted">Welcome back! Enter your email and password.</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% include "accounts/_form_fields.html" %}
+    <button type="submit" class="btn btn-primary btn-block">Log in</button>
+  </form>
+  <p class="muted center">New to StudyMatch? <a href="{% url 'accounts:register' %}">Create an account</a></p>
+</section>
+{% endblock %}

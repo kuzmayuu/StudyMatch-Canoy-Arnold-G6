@@ -1,0 +1,44 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}StudyMatch{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'accounts:home' %}">StudyMatch</a>
+    <nav class="nav">
+      {% if user.is_authenticated %}
+        {% if user.role == 'ADMIN' %}
+          <a href="{% url 'accounts:admin_dashboard' %}">Admin Dashboard</a>
+        {% else %}
+          <a href="{% url 'accounts:student_dashboard' %}">Dashboard</a>
+        {% endif %}
+        <a href="{% url 'accounts:profile' %}">My Profile</a>
+        <form method="post" action="{% url 'accounts:logout' %}" class="inline-form">
+          {% csrf_token %}
+          <button type="submit" class="link-button">Log out ({{ user.first_name }})</button>
+        </form>
+      {% else %}
+        <a href="{% url 'accounts:login' %}">Log in</a>
+        <a href="{% url 'accounts:register' %}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="alert alert-{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">StudyMatch &middot; IM2 Project &middot; CIT-U</footer>
+</body>
+</html>

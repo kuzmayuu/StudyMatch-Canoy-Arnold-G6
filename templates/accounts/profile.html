@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Profile &middot; StudyMatch{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <div class="profile-head">
+    {% if profile.profile_photo %}
+      <img class="avatar" src="{{ profile.profile_photo.url }}" alt="Profile photo of {{ user.full_name }}">
+    {% else %}
+      <div class="avatar avatar-initials">{{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}</div>
+    {% endif %}
+    <div>
+      <h1>{{ user.full_name }}</h1>
+      <p class="muted">{{ user.get_role_display }}</p>
+    </div>
+  </div>
+  <dl class="details">
+    <dt>Email</dt><dd>{{ user.email }}</dd>
+    {% if user.student_id_no %}<dt>Student ID</dt><dd>{{ user.student_id_no }}</dd>{% endif %}
+    <dt>Program</dt><dd>{{ profile.program|default:"Not set" }}</dd>
+    <dt>Year level</dt><dd>{{ profile.year_level|default:"Not set" }}</dd>
+    <dt>Contact number</dt><dd>{{ profile.contact_number|default:"Not set" }}</dd>
+    <dt>Bio</dt><dd>{{ profile.bio|default:"Not set" }}</dd>
+  </dl>
+  <a class="btn btn-primary" href="{% url 'accounts:profile_edit' %}">Edit profile</a>
+</section>
+{% endblock %}

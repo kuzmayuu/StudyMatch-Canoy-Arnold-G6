@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard &middot; StudyMatch{% endblock %}
+{% block content %}
+<h1>Admin dashboard</h1>
+<p class="muted">Signed in as {{ user.full_name }} ({{ user.get_role_display }})</p>
+
+<div class="grid">
+  <div class="card stat"><span class="stat-number">{{ total_students }}</span><span class="muted">Registered students</span></div>
+  <div class="card stat"><span class="stat-number">{{ active_students }}</span><span class="muted">Active</span></div>
+  <div class="card stat"><span class="stat-number">{{ suspended_students }}</span><span class="muted">Suspended</span></div>
+</div>
+
+<section class="card">
+  <h2>User management</h2>
+  {% if users %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Name</th><th>Email</th><th>Student ID</th><th>Role</th><th>Status</th><th>Joined</th><th>Action</th></tr></thead>
+      <tbody>
+      {% for u in users %}
+        <tr>
+          <td>{{ u.full_name }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.student_id_no|default:"-" }}</td>
+          <td>{{ u.get_role_display }}</td>
+          <td><span class="badge badge-{{ u.status|lower }}">{{ u.get_status_display }}</span></td>
+          <td>{{ u.created_at|date:"M j, Y" }}</td>
+          <td>
+            {% if u.role == 'STUDENT' %}
+            <form method="post" action="{% url 'accounts:toggle_user_status' u.pk %}" class="inline-form">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-small">{% if u.status == 'ACTIVE' %}Suspend{% else %}Restore{% endif %}</button>
+            </form>
+            {% else %}-{% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="muted">No other users yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
