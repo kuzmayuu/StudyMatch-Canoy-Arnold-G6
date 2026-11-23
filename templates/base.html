@@ -13,8 +13,12 @@
       {% if user.is_authenticated %}
         {% if user.role == 'ADMIN' %}
           <a href="{% url 'accounts:admin_dashboard' %}">Admin Dashboard</a>
+          <a href="{% url 'matching:subject_list' %}">Subjects</a>
         {% else %}
           <a href="{% url 'accounts:student_dashboard' %}">Dashboard</a>
+          <a href="{% url 'matching:my_subjects' %}">Subjects</a>
+          <a href="{% url 'matching:availability_list' %}">Availability</a>
+          <a href="{% url 'matching:preferences' %}">Preferences</a>
         {% endif %}
         <a href="{% url 'accounts:profile' %}">My Profile</a>
         <form method="post" action="{% url 'accounts:logout' %}" class="inline-form">

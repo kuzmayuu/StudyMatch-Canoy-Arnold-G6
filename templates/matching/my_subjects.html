@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}My Subjects &middot; StudyMatch{% endblock %}
+{% block content %}
+<h1>My subjects</h1>
+<p class="muted">Pick the subjects you want study partners for (up to 10).</p>
+<section class="card">
+  <h2>Add a subject</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "accounts/_form_fields.html" %}
+    <button type="submit" class="btn btn-primary">Add subject</button>
+  </form>
+</section>
+<section class="card">
+  <h2>Your list ({{ mine|length }})</h2>
+  {% if mine %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Code</th><th>Name</th><th>Added</th><th>Action</th></tr></thead>
+      <tbody>
+      {% for link in mine %}
+        <tr>
+          <td>{{ link.subject.subject_code }}</td>
+          <td>{{ link.subject.subject_name }}</td>
+          <td>{{ link.added_at|date:"M j, Y" }}</td>
+          <td>
+            <form method="post" action="{% url 'matching:my_subject_remove' link.pk %}" class="inline-form">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-small">Remove</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="muted">You haven't chosen any subjects yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
