@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Availability &middot; StudyMatch{% endblock %}
+{% block content %}
+<h1>My weekly availability</h1>
+<p class="muted">Tell StudyMatch when you are free to study.</p>
+<section class="card">
+  <h2>Add a time slot</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "accounts/_form_fields.html" %}
+    <button type="submit" class="btn btn-primary">Add slot</button>
+  </form>
+</section>
+<section class="card">
+  <h2>Your slots ({{ slots|length }})</h2>
+  {% if slots %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Day</th><th>From</th><th>To</th><th>Actions</th></tr></thead>
+      <tbody>
+      {% for slot in slots %}
+        <tr>
+          <td>{{ slot.get_day_of_week_display }}</td>
+          <td>{{ slot.start_time|time:"g:i A" }}</td>
+          <td>{{ slot.end_time|time:"g:i A" }}</td>
+          <td>
+            <a class="btn btn-small" href="{% url 'matching:availability_edit' slot.pk %}">Edit</a>
+            <form method="post" action="{% url 'matching:availability_delete' slot.pk %}" class="inline-form">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-small">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="muted">No availability yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

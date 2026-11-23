@@ -1,0 +1,12 @@
+<h2>Study partner matching</h2>
+<section class="card">
+  <h3>Get ready to match</h3>
+  <ul class="checklist">
+    <li>{% if subject_count %}&#10003;{% else %}&#9675;{% endif %} <a href="{% url 'matching:my_subjects' %}">Choose your subjects</a> ({{ subject_count }} selected)</li>
+    <li>{% if slot_count %}&#10003;{% else %}&#9675;{% endif %} <a href="{% url 'matching:availability_list' %}">Add your availability</a> ({{ slot_count }} slots)</li>
+    <li>{% if has_preference %}&#10003;{% else %}&#9675;{% endif %} <a href="{% url 'matching:preferences' %}">Set your study preferences</a> (optional, improves ranking)</li>
+  </ul>
+  {% if not ready %}
+    <p class="muted">Choose at least one subject and one time slot to unlock partner search.</p>
+  {% endif %}
+</section>

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load matching_tags %}
 {% block title %}Student Dashboard &middot; StudyMatch{% endblock %}
 {% block content %}
 <h1>Hello, {{ user.first_name }}!</h1>
@@ -12,10 +13,5 @@
   <a class="btn" href="{% url 'accounts:profile' %}">View profile</a>
 </section>
 
-<h2>What's coming</h2>
-<div class="grid">
-  <div class="card soon"><h3>Find study partners</h3><p class="muted">Search and match by subject and schedule.</p><span class="tag">Next phase</span></div>
-  <div class="card soon"><h3>Study groups</h3><p class="muted">Create or join groups for your subjects.</p><span class="tag">Next phase</span></div>
-  <div class="card soon"><h3>Study sessions</h3><p class="muted">Schedule sessions and see your history.</p><span class="tag">Next phase</span></div>
-</div>
+{% student_matching_panel %}
 {% endblock %}

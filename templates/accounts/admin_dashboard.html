@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load matching_tags %}
 {% block title %}Admin Dashboard &middot; StudyMatch{% endblock %}
 {% block content %}
 <h1>Admin dashboard</h1>
@@ -9,6 +10,8 @@
   <div class="card stat"><span class="stat-number">{{ active_students }}</span><span class="muted">Active</span></div>
   <div class="card stat"><span class="stat-number">{{ suspended_students }}</span><span class="muted">Suspended</span></div>
 </div>
+
+{% admin_matching_panel %}
 
 <section class="card">
   <h2>User management</h2>
